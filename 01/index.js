@@ -44,6 +44,23 @@ router.post("/", (ctx) => {
 router.get("/user/:id", (ctx) => {
   ctx.body = "user";
 });
+// 中间件栈结构
+const one = (ctx, next) => {
+  console.log(">>one");
+  next();
+  console.log("<<one");
+};
+const two = (ctx, next) => {
+  console.log(">>two");
+  next();
+  console.log("<<two");
+};
+const three = (ctx, next) => {
+  console.log(">>three");
+  next();
+  console.log("<<three");
+};
+app.use(one).use(two).use(three);
 app.use(router.routes()).use(router.allowedMethods());
 
 app.listen(3000, () => {
