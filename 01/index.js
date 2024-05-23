@@ -3,6 +3,8 @@ const Router = require("@koa/router");
 const static = require("koa-static");
 const path = require("path");
 const mount = require("koa-mount");
+const fs = require("fs");
+const util = require("util");
 
 const app = new Koa();
 // app.use(static("./public"));
@@ -28,9 +30,9 @@ const router = new Router();
 
 // });
 // 使用官方路由
-router.get("/", (ctx) => {
-  ctx.body = "home";
-});
+// router.get("/", (ctx) => {
+//   ctx.body = "home";
+// });
 router.get("/foo", (ctx) => {
   ctx.body = "foo";
 });
@@ -60,6 +62,12 @@ const three = (ctx, next) => {
   next();
   console.log("<<three");
 };
+// 异步中间件
+app.use(async (ctx, next) => {
+  const data = await util.promisify(fs.readFile)("./views/index.html", "utf8");
+  ctx.body = data;
+  next();
+});
 app.use(one).use(two).use(three);
 app.use(router.routes()).use(router.allowedMethods());
 
