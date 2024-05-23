@@ -1,6 +1,14 @@
 const Koa = require("koa");
 const Router = require("@koa/router");
+const static = require("koa-static");
+const path = require("path");
+const mount = require("koa-mount");
+
 const app = new Koa();
+// app.use(static("./public"));
+// mount：设置请求的虚拟路径
+app.use(mount("/foo", static(path.join(__dirname, "./public"))));
+
 const router = new Router();
 
 // app.use((ctx) => {
@@ -25,6 +33,10 @@ router.get("/", (ctx) => {
 });
 router.get("/foo", (ctx) => {
   ctx.body = "foo";
+});
+// 路由重定向
+router.get("/bar", (ctx) => {
+  ctx.redirect("/foo");
 });
 router.post("/", (ctx) => {
   ctx.body = "foopost/";
