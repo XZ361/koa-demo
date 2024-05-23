@@ -5,6 +5,7 @@ const path = require("path");
 const mount = require("koa-mount");
 const fs = require("fs");
 const util = require("util");
+const compose = require("koa-compose");
 
 const app = new Koa();
 // app.use(static("./public"));
@@ -68,7 +69,8 @@ app.use(async (ctx, next) => {
   ctx.body = data;
   next();
 });
-app.use(one).use(two).use(three);
+// app.use(one).use(two).use(three);
+app.use(compose([one, two, three]));
 app.use(router.routes()).use(router.allowedMethods());
 
 app.listen(3000, () => {
