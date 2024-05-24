@@ -48,29 +48,53 @@ router.get("/user/:id", (ctx) => {
   ctx.body = "user";
 });
 // 中间件栈结构
-const one = (ctx, next) => {
-  console.log(">>one");
-  next();
-  console.log("<<one");
-};
-const two = (ctx, next) => {
-  console.log(">>two");
-  next();
-  console.log("<<two");
-};
-const three = (ctx, next) => {
-  console.log(">>three");
-  next();
-  console.log("<<three");
-};
+// const one = (ctx, next) => {
+//   console.log(">>one");
+//   next();
+//   console.log("<<one");
+// };
+// const two = (ctx, next) => {
+//   console.log(">>two");
+//   next();
+//   console.log("<<two");
+// };
+// const three = (ctx, next) => {
+//   console.log(">>three");
+//   next();
+//   console.log("<<three");
+// };
+// 异步中间件
+// app.use(async (ctx, next) => {
+//   const data = await util.promisify(fs.readFile)("./views/index.html", "utf8");
+//   ctx.body = data;
+//   next();
+// });
+app.use(async (ctx, next) => {
+  try {
+    await next();
+  } catch (err) {
+    ctx.response.status = 500;
+    ctx.response.body = err.message;
+    // ctx.throw(404);
+    // ctx.throw(500);
+  }
+});
+app.use(async (ctx, next) => {
+  JSON.parse("{}");
+  // ctx.body = "hello koa";
+  // return next();
+  await next();
+});
 // 异步中间件
 app.use(async (ctx, next) => {
-  const data = await util.promisify(fs.readFile)("./views/index.html", "utf8");
+  const data = await util.promisify(fs.readFile)("./views/index111.html");
+  ctx.type = "html";
   ctx.body = data;
   next();
 });
 // app.use(one).use(two).use(three);
-app.use(compose([one, two, three]));
+// 合并中间件
+// app.use(compose([one, two, three]));
 app.use(router.routes()).use(router.allowedMethods());
 
 app.listen(3000, () => {
