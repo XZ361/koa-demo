@@ -51,7 +51,7 @@ class Application {
       fnMiddleware(context)
         .then(() => {
           console.log("end");
-          res.end("hello koa ");
+          res.end(context.body);
         })
         .catch((err) => {
           res.end(err.message);

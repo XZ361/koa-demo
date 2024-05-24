@@ -9,31 +9,39 @@ app.use((ctx, next) => {
   // console.log(ctx.request.query);
   // console.log(ctx.request.path);
   // rl);
-  console.log(ctx.header);
-  console.log(ctx.method);
-  console.log(ctx.url);
-  console.log(ctx.query);
-  console.log(ctx.path);
+  // console.log(ctx.header);
+  // console.log(ctx.method);
+  // console.log(ctx.url);
+  // console.log(ctx.query);
+  // console.log(ctx.path);
+  ctx.body = "hello koa,today is good!";
+  next();
+  ctx.body = "hello koa,today is  very good!";
 });
-const one = (ctx, next) => {
-  console.log(">>one");
-  next();
-  console.log("<<one");
-};
-const two = (ctx, next) => {
-  console.log(">>two");
-  next();
-  console.log("<<two");
-};
-const three = (ctx, next) => {
-  console.log(">>three");
-  next();
-  console.log("<<three");
-};
+app.use((ctx) => {
+  ctx.body = "hello koa,";
 
-app.use(one);
-app.use(two);
-app.use(three);
+  // console.log(ctx.response.body, ctx.body);
+});
+// const one = (ctx, next) => {
+//   console.log(">>one");
+//   next();
+//   console.log("<<one");
+// };
+// const two = (ctx, next) => {
+//   console.log(">>two");
+//   next();
+//   console.log("<<two");
+// };
+// const three = (ctx, next) => {
+//   console.log(">>three");
+//   next();
+//   console.log("<<three");
+// };
+
+// app.use(one);
+// app.use(two);
+// app.use(three);
 // console.log(app.middleware);
 app.listen(3000, () => {
   console.log("服务成功启动");

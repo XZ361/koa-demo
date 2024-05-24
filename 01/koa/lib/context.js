@@ -19,12 +19,15 @@ defineProperty("request", "method");
 defineProperty("request", "url");
 defineProperty("request", "path");
 defineProperty("request", "query");
-// defineProperty("request", "header");
+defineProperty("response", "body");
 
 function defineProperty(target, name) {
   Object.defineProperty(context, name, {
     get() {
       return this[target][name];
+    },
+    set(value) {
+      this[target][name] = value;
     },
   });
 }
