@@ -88,14 +88,17 @@ app.use(async (ctx, next) => {
   return next();
 });
 // 异步中间件
-app.use(async (ctx, next) => {
-  const data = await util.promisify(fs.readFile)("./views/index111.html");
-  ctx.type = "html";
-  ctx.body = data;
-  await next();
-});
+// app.use(async (ctx, next) => {
+//   const data = await util.promisify(fs.readFile)("./views/index111.html");
+//   ctx.type = "html";
+//   ctx.body = data;
+//   await next();
+// });
 app.on("error", (err) => {
   console.log(err);
+});
+app.use((ctx, next) => {
+  console.log(ctx.req.url);
 });
 // app.use(one).use(two).use(three);
 // 合并中间件
